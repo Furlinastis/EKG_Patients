@@ -10,7 +10,7 @@ let usetTEST = db.test;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/api/v1/todos/', async (req, res) => {
+app.get('/api', async (req, res) => {
   //console.log(req.params.name);
   console.log("START");
   res.status(200).send({
@@ -28,8 +28,19 @@ app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`)
 });
 
+app.get('/api/:id', async (req, res) => {
+  const id = parseInt(req.params.id)
+  //console.log(req.params.name);
+  console.log("START");
+  res.status(200).send({
+    success: 'true',
+    b: await db.getPatientByID(id)
+  })
+  console.log("FINISH");
+});
 
-app.get('/api/v1/todos/:id', (req, res) => { 
+
+/*app.get('/api/v1/todos/:id', (req, res) => { 
   const id = parseInt(req.params.id, 10);  
   db.map((todo) => {    
     if (todo.id === id) {      
@@ -44,5 +55,5 @@ app.get('/api/v1/todos/:id', (req, res) => {
    success: 'false',   
    message: 'todo does not exist',  
   });
-});
+});*/
 

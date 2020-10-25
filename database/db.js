@@ -30,12 +30,39 @@ async function getPatientList() {
     //});
 };
 
+async function getPatientByID(id) {
+    const sql = require("mssql");
+
+    // config for your database
+    const config = {
+        user: 'sa',
+        password: 'BizagiBPM123',
+        server: 'localhost', 
+        database: 'SzemelyesAdatok',
+        port: 53329
+    };
+
+    // connect to your database
+    await sql.connect(config)
+    
+
+        // query to the database and get the records
+        var TAJdata = await sql.query(`SELECT TAJ, Name, SzuleteskoriName, MotherName, PlaceBirth, DateBirth from Personal_data where TAJ = ${id}`);
+       
+        console.log("NOW");
+        //console.log(result);
+        return TAJdata.recordset[0];
+    //});
+};
+
+
 module.exports = {
     /*getPatientList : async(db) =>{
         let sqlRequest = await getPatientList();
         return sqlRequest;
     },*/
     getPatientList,
-    test
+    test,
+    getPatientByID
 };
 
