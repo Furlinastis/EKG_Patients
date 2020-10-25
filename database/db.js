@@ -1,10 +1,15 @@
 //app.get('/', function (req, res)
-var getPatientList = function() {
-   
-    var sql = require("mssql");
+
+function test(){
+    return "TEST";
+
+}
+
+async function getPatientList() {
+    const sql = require("mssql");
 
     // config for your database
-    var config = {
+    const config = {
         user: 'sa',
         password: 'BizagiBPM123',
         server: 'localhost', 
@@ -13,22 +18,24 @@ var getPatientList = function() {
     };
 
     // connect to your database
-    sql.connect(config, function (err) {
+    await sql.connect(config)
     
-        if (err) console.log(err);
 
-        // create Request object
-        var request = new sql.Request();
-           
         // query to the database and get the records
-        request.query('select * from Personal_data', function (err, recordset) {
-            
-            if (err) console.log(err)
+        var result = await sql.query('SELECT * from Personal_data');
+       
+        console.log("NOW");
+        //console.log(result);
+        return result;
+    //});
+};
 
-            // send records as a response
-           return recordset;
-            
-        });
-    });
+module.exports = {
+    /*getPatientList : async(db) =>{
+        let sqlRequest = await getPatientList();
+        return sqlRequest;
+    },*/
+    getPatientList,
+    test
 };
 
