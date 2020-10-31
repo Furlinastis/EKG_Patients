@@ -39,6 +39,26 @@ app.get('/api/:id', async (req, res) => {
   console.log("FINISH");
 });
 
+app.post('/api', async (req, res) => {
+  console.log(req.body);
+  if(!req.body.TAJ) {
+    return res.status(400).send({
+      success: 'false',
+      message: 'TAJ is required'
+    });
+  } else if(!req.body.Name) {
+    return res.status(400).send({
+      success: 'false',
+      message: 'Name is required'
+    });
+  }
+  await db.createPatient(req);
+ return res.status(201).send({
+   success: 'true',
+   message: 'todo added successfully'
+ })
+});
+
 
 /*app.get('/api/v1/todos/:id', (req, res) => { 
   const id = parseInt(req.params.id, 10);  
