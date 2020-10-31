@@ -72,7 +72,7 @@ async function createPatient(req) {
     
 
         // query to the database and get the records
-        var addPatient = await sql.query("INSERT INTO [Personal_data] (TAJ, Name, SzuleteskoriName, MotherName, PlaceBirth, DateBirth) VALUES ('"+req.body.TAJ+"','"+req.body.Name+"','"+req.body.SzuleteskoriName+"','"+req.body.MotherName+"','"+req.body.PlaceBirth+"','"+req.body.DateBirth+"')");
+        var addPatient = await sql.query("INSERT INTO [Personal_data] (TAJ, Name, SzuleteskoriName, MotherName, PlaceBirth, DateBirth) VALUES ('"+req.body.TAJ+"','"+req.body.Name+"','"+req.body.SzuleteskoriName+"','"+req.body.MotherName+"','"+req.body.PlaceBirth+"','"+req.body.DateBirth.replace(/T.*/,"")+"')");
        
         console.log("NOW");
         //console.log(result);
