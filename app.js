@@ -7,38 +7,36 @@ const app = express();// Parse incoming requests data
 const db = require('./database/db');
 //const PatientService = require('./services/service');
 
-//let usetTEST = db.test;
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-app.get('/api', async (req, res) => {
-  try{
-    let ps = new PatientService();
-    const {success, message, todos2, a} = await ps.patientList();
-    //console.log(await ps.patientList());
-    return res.json({success, message, todos2});
-  }catch(e){
-    console.log("ERROR2: " + e.message);
-  }
-  
-});
-
 const PORT = 3000;
 
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`)
 });
 
+app.get('/api', async (req, res) => {
+  try{
+    let ps = new PatientService();
+    const {success, message, todos2} = await ps.patientList();
+    //console.log(await ps.patientList());
+    return res.json({success, message, todos2});
+  }catch(e){
+    console.log("ERROR2: " + e.message);
+  } 
+});
+
 app.get('/api/:id', async (req, res) => {
   const id = parseInt(req.params.id)
-  //console.log(req.params.name);
-  console.log("START");
-  res.status(200).send({
-    success: 'true',
-    b: await db.getPatientByID(id)
-  })
-  console.log("FINISH");
+  try{
+    let ps = new PatientService(id);
+    const {success, patientData} = await ps.patientByID(id);
+    //console.log(await ps.patientList());
+    return res.json({success, patientData});
+  }catch(e){
+    console.log("ERROR37: " + e.message);
+    return res.json({success, patientData});
+  } 
 });
 
 app.post('/api', async (req, res) => {

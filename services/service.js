@@ -12,7 +12,19 @@ export default class PatientService {
             return {success: Success, message: Message, todos2 : Todos2};
 
         }
-        catch(e){console.log("ERROR: " + e.Message)}
-
+        catch(e){console.log("ERROR15: " + e.Message)}
     };
+
+    async patientByID(id){
+        try{
+            
+            const PatientData = await db.getPatientByID(id);
+            console.log(PatientData);
+            const Success = PatientData === undefined ? false : true;
+            return {success: Success, patientData : PatientData};
+
+        }
+        catch(e){console.log("ERROR26: " + e.Message)}
+    };
+
 }
