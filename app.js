@@ -1,25 +1,27 @@
 import bodyParser from 'body-parser';
 import express from 'express';
-import {getPatientList,test} from './database/db';// Set up the express app
+//import {getPatientList,test} from './database/db';// Set up the express app
+import PatientService from './services/service';
 
 const app = express();// Parse incoming requests data
 const db = require('./database/db');
+//const PatientService = require('./services/service');
 
-let usetTEST = db.test;
+//let usetTEST = db.test;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/api', async (req, res) => {
-  //console.log(req.params.name);
-  console.log("START");
-  res.status(200).send({
-    success: 'true',
-    message: 'todos retrieved successfully',
-    todos2: await db.getPatientList()/*.then ((result) => console.log( result ))*/,
-    a : usetTEST()
-  })
-  console.log("FINISH");
+  try{
+    let ps = new PatientService();
+    const {success, message, todos2, a} = await ps.patientList();
+    //console.log(await ps.patientList());
+    return res.json({success, message, todos2});
+  }catch(e){
+    console.log("ERROR2: " + e.message);
+  }
+  
 });
 
 const PORT = 3000;
@@ -58,22 +60,3 @@ app.post('/api', async (req, res) => {
    message: 'todo added successfully'
  })
 });
-
-
-/*app.get('/api/v1/todos/:id', (req, res) => { 
-  const id = parseInt(req.params.id, 10);  
-  db.map((todo) => {    
-    if (todo.id === id) {      
-      return res.status(200).send({        
-        success: 'true',        
-         message: 'todo retrieved successfully',        
-         todo,      
-        });   
-       } 
-      });
- return res.status(404).send({   
-   success: 'false',   
-   message: 'todo does not exist',  
-  });
-});*/
-

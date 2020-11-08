@@ -26,7 +26,7 @@ async function getPatientList() {
        
         console.log("NOW");
         //console.log(result);
-        return result;
+        return result.recordset;
     //});
 };
 
