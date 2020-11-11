@@ -2,17 +2,19 @@ import bodyParser from 'body-parser';
 import express from 'express';
 //import {getPatientList,test} from './database/db';// Set up the express app
 import PatientService from './services/service';
-
+const config = require ('./config/index');
 const app = express();// Parse incoming requests data
 const db = require('./database/db');
+
+
 //const PatientService = require('./services/service');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-const PORT = 3000;
 
-app.listen(PORT, () => {
-  console.log(`server running on port ${PORT}`)
+
+app.listen(process.env.PORT, () => {
+  console.log(`server running on port ${process.env.PORT}`)
 });
 
 app.get('/api', async (req, res) => {

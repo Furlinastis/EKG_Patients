@@ -12,7 +12,7 @@ export default class PatientService {
             return {success: Success, message: Message, todos2 : Todos2};
 
         }
-        catch(e){console.log("ERROR15: " + e.Message)}
+        catch(e){console.log("ERROR15: " + e.message)}
     };
 
     async patientByID(id){
@@ -24,7 +24,7 @@ export default class PatientService {
             return {success: Success, patientData : PatientData};
 
         }
-        catch(e){console.log("ERROR26: " + e.Message)}
+        catch(e){console.log("ERROR26: " + e.message)}
     };
 
 }

@@ -1,97 +1,53 @@
-//app.get('/', function (req, res)
 
-function test(){
-    return "TEST";
+const sql = require("mssql");
 
-}
+// Config for database
+function dbConfig() {
+    return {
+        database: process.env.DATABASE,
+        user: process.env.USER,
+        password: process.env.PASSWORD,
+        server: process.env.SERVER, 
+        port: parseInt(process.env.DATABASE_PORT)
+      };
+  };
+
 
 async function getPatientList() {
-    const sql = require("mssql");
 
-    // config for your database
-    const config = {
-        user: 'sa',
-        password: 'BizagiBPM123',
-        server: 'localhost', 
-        database: 'SzemelyesAdatok',
-        port: 53329
-    };
-
-    // connect to your database
-    await sql.connect(config)
-    
-
-        // query to the database and get the records
+    await sql.connect(dbConfig())
+  
+        // Database query and get the recordset
         var result = await sql.query('SELECT * from Personal_data');
-       
-        //console.log("NOW");
-        //console.log(result);
         return result.recordset;
-    //});
 };
 
 async function getPatientByID(id) {
-    const sql = require("mssql");
 
-    // config for your database
-    const config = {
-        user: 'sa',
-        password: 'BizagiBPM123',
-        server: 'localhost', 
-        database: 'SzemelyesAdatok',
-        port: 53329
-    };
+    await sql.connect(dbConfig())
 
-    // connect to your database
-    await sql.connect(config)
-    
-
-        // query to the database and get the records
+        // Database query and get patient by ID
         var TAJdata = await sql.query(`SELECT TAJ, Name, SzuleteskoriName, MotherName, PlaceBirth, DateBirth from Personal_data where TAJ = ${id}`);
-       
-        //console.log("NOW");
-        //console.log(result);
+
         return TAJdata.recordset[0];
-    //});
+
 };
 
 async function createPatient(req) {
-    const sql = require("mssql");
 
-    // config for your database
-    const config = {
-        user: 'sa',
-        password: 'BizagiBPM123',
-        server: 'localhost', 
-        database: 'SzemelyesAdatok',
-        port: 53329
-    };
+    await sql.connect(dbConfig())
 
-    // connect to your database
-    await sql.connect(config)
-    
-
-        // query to the database and get the records
+        // Insert a new patient to the database
         var addPatient = await sql.query("INSERT INTO [Personal_data] (TAJ, Name, SzuleteskoriName, MotherName, PlaceBirth, DateBirth) VALUES ('"+req.body.TAJ+"','"+req.body.Name+"','"+req.body.SzuleteskoriName+"','"+req.body.MotherName+"','"+req.body.PlaceBirth+"','"+req.body.DateBirth.replace(/T.*/,"")+"')");
-       
-        //console.log("NOW");
-        //console.log(result);
 
-    //});
 };
 
 
-
-
-
 module.exports = {
-    /*getPatientList : async(db) =>{
-        let sqlRequest = await getPatientList();
-        return sqlRequest;
-    },*/
+
     getPatientList,
-    test,
     getPatientByID,
-    createPatient
+    createPatient,
+    
 };
 
