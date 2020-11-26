@@ -1,8 +1,5 @@
-import express from 'express';
 import test from './api/api';
 import app from './api/api';
-//const api = express();
-//onst hereyou = new HereYou();
 
 const config = require ('./config/index');
 
