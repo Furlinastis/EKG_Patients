@@ -1,62 +1,25 @@
-import bodyParser from 'body-parser';
 import express from 'express';
-//import {getPatientList,test} from './database/db';// Set up the express app
-import PatientService from './services/service';
+import test from './api/api';
+import app from './api/api';
+//const api = express();
+//onst hereyou = new HereYou();
+
 const config = require ('./config/index');
-const app = express();// Parse incoming requests data
-const db = require('./database/db');
 
+async function startServer() {
 
-//const PatientService = require('./services/service');
+try{
+    app.app.listen(process.env.PORT, () => {
+    console.log(`Server running successfully on port: ${process.env.PORT}`);
+    console.log(test.test);
+  })
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-
-app.listen(process.env.PORT, () => {
-  console.log(`server running on port ${process.env.PORT}`)
-});
-
-app.get('/api', async (req, res) => {
-  try{
-    let ps = new PatientService();
-    const {success, message, todos2} = await ps.patientList();
-    //console.log(await ps.patientList());
-    return res.json({success, message, todos2});
-  }catch(e){
-    console.log("ERROR2: " + e.message);
+}catch(e){
+  console.log("ERROR37: " + e.message);
   } 
-});
+};
 
-app.get('/api/:id', async (req, res) => {
-  const id = parseInt(req.params.id)
-  try{
-    let ps = new PatientService(id);
-    const {success, patientData} = await ps.patientByID(id);
-    //console.log(await ps.patientList());
-    return res.json({success, patientData});
-  }catch(e){
-    console.log("ERROR37: " + e.message);
-    return res.json({success, patientData});
-  } 
-});
+startServer();
 
-app.post('/api', async (req, res) => {
-  console.log(req.body);
-  if(!req.body.TAJ) {
-    return res.status(400).send({
-      success: 'false',
-      message: 'TAJ is required'
-    });
-  } else if(!req.body.Name) {
-    return res.status(400).send({
-      success: 'false',
-      message: 'Name is required'
-    });
-  }
-  await db.createPatient(req);
- return res.status(201).send({
-   success: 'true',
-   message: 'todo added successfully'
- })
-});
+
+

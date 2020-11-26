@@ -7,9 +7,9 @@ export default class PatientService {
         try{
             const Success = 'true';
             const Message = 'retrieved successfully';
-            const Todos2 = await db.getPatientList();
+            const FromPl = await db.getPatientList();
 
-            return {success: Success, message: Message, todos2 : Todos2};
+            return {success: Success, message: Message, frompatientlist : FromPl};
 
         }
         catch(e){console.log("ERROR15: " + e.message)}
