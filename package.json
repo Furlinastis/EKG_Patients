@@ -17,5 +17,8 @@
     "express": "^4.17.1",
     "mssql": "^6.2.3",
     "nodemon": "^2.0.6"
+  },
+  "devDependencies": {
+    "jshint": "^2.12.0"
   }
 }

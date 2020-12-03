@@ -27,4 +27,16 @@ export default class PatientService {
         catch(e){console.log("ERROR26: " + e.message)}
     };
 
+    async patientUpdate(id,req){
+        try{
+            
+            const PatientPUT= await db.updatePatient(id,req);
+            //const Success = PatientPUT === undefined ? false : true;
+            //return { PatientPUT : PatientPUT};
+            return PatientPUT;
+
+        }
+        catch(e){console.log("ERROR33: " + e.message)}
+    };
+
 }
