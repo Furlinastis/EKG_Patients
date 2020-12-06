@@ -42,7 +42,7 @@ async function createPatient(req) {
 
         // Insert a new patient to the database
         var addPatient = await sql.query("INSERT INTO [Personal_data] (TAJ, Name, SzuleteskoriName, MotherName, PlaceBirth, DateBirth) VALUES ('"+req.body.TAJ+"','"+req.body.Name+"','"+req.body.SzuleteskoriName+"','"+req.body.MotherName+"','"+req.body.PlaceBirth+"','"+req.body.DateBirth.replace(/T.*/,"")+"')");
-        return addPatient;
+        return addPatient.rowsAffected[0];
 };
 
 async function updatePatient(id,req) {

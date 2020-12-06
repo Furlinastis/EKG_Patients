@@ -20,23 +20,34 @@ export default class PatientService {
             
             const PatientData = await db.getPatientByID(id);
             console.log(PatientData);
-            const Success = PatientData === undefined ? false : true;
+            const Success = PatientData === undefined ? false: true;
             return {success: Success, patientData : PatientData};
 
         }
         catch(e){console.log("ERROR26: " + e.message)}
     };
 
+    async patientCreate(req){
+        try{
+
+            const PatientCreate= await db.createPatient(req);
+            return  PatientCreate;
+
+        }
+        catch(e){console.log("ERROR33: " + e.message)}
+    };
+
+
+
+
     async patientUpdate(id,req){
         try{
             
             const PatientPUT= await db.updatePatient(id,req);
-            //const Success = PatientPUT === undefined ? false : true;
-            //return { PatientPUT : PatientPUT};
             return PatientPUT;
 
         }
-        catch(e){console.log("ERROR33: " + e.message)}
+        catch(e){console.log("ERROR35: " + e.message)}
     };
 
 }

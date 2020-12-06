@@ -27,11 +27,15 @@ app.get('/api', async (req, res) => {
     try{
       let ps = new PatientService(id);
       const {success, patientData} = await ps.patientByID(id);
-      if(success == false) res.status(404).send('The patient with the given ID was not found');
+      if(success == false) 
+        {
+           return res.status(404).send({success :false, patientData :{}});
+      }
+    else 
       return res.json({success, patientData});
     }catch(e){
-      console.log("ERROR37: " + e.message);
-      return res.json({success, patientData});
+      console.log("ERROR38: " + e.message);
+      return res.json({success :false, patientData :{}});
     } 
   });
   
@@ -48,10 +52,11 @@ app.get('/api', async (req, res) => {
         message: 'Name is required'
       });
     }
-    await db.createPatient(req);
-   return res.status(201).send({
-     success: 'true',
-     message: 'Patient added successfully'
+      let ps = new PatientService();
+      let createNew = await ps.patientCreate(req)
+      return res.status(createNew ? 201 : 400).send({
+     success: createNew ? 'true' : "failed",
+     message: createNew ? 'Patient added successfully' : 'Patient cannot added, the request was failed'
    })
   });
 
@@ -69,10 +74,7 @@ app.get('/api', async (req, res) => {
     }catch(e){
       console.log("ERROR40: " + e.message);
     } 
-
   });
-  
-
 
 
 module.exports = {
