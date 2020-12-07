@@ -50,4 +50,5 @@ export default class PatientService {
         catch(e){console.log("ERROR35: " + e.message)}
     };
 
-}
+  }
+
