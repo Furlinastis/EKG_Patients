@@ -8,10 +8,6 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
-var test = 'teszt';
-console.log(test);
-
 app.get('/api', async (req, res) => {
     try{
       let ps = new PatientService();
@@ -75,7 +71,8 @@ app.get('/api', async (req, res) => {
       console.log("ERROR40: " + e.message);
     } 
   });
-
+  var test = 'teszt';
+  console.log(test);
 
 module.exports = {
   test, 

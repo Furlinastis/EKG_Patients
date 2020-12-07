@@ -1,59 +1,62 @@
-const testing = require('../database/db');
-const https = require('http');
+import "babel-polyfill";
+const config = require ('../config/index');
+const supertest = require('supertest');
+const application = require('../api/api');
+const request = supertest(application.app);
 
-//const application = require('../app.js');
+describe('/GET return patient by TAJ', () => {
 
-/*describe('greet-test', () => {
+    it('successful request', async done => {
+        const response = await request.get('/api/111222333');
 
-    it('should retutn the greeting message', () => {
-    const result = testing.greet('Noemi')
-    expect(result).toMatch(/Noemi/);
-    });
+        expect(response.status).toBe(200)
+        expect(response.body.success).toEqual(true)
+        done()
 
-    it('should return the greeting message with error', () => {
-        const result = testing.greet('Akarmilyen string')
-        expect(result).toMatch(/Akarmilyen string/);
-        });
-});
-*/
-describe('get-test', () => {
-    //startServer();
+      })
 
-    it('should retutn the patient data status 200',  () => {
-        const options = {
-            hostname: "localhost",
-            port : 3000,
-            path : ":api/222333444",
-            method: 'GET'
-        } 
-        const req =  https.request(options, res =>{
-            console.log(res.statusCode);
-             expect(res.statusCode).toMatch(200);
+      it('returns correct data', async done => {
 
-           /* res.on('data', d => {
-                console.log(d);
-                    expect(d).toMatch({
-                        "success": true,
-                        "patientData": {
-                            "TAJ": 222333444,
-                            "Name": "Fekete Dóra",
-                            "SzuleteskoriName": "Fekete Szabina",
-                            "MotherName": "Grózinger Kata",
-                            "PlaceBirth": "Budapest",
-                            "DateBirth": "1992-06-18T00:00:00.000Z"
-                        }
-                    
-                    });
+        const response = await request.get('/api/111222333');
+        //console.log(response.body);
 
-            })*/
+        expect(response).toBeDefined()
+        expect(response.body.patientData.TAJ).toEqual(111222333)
+        expect(response.body.patientData.MotherName).toEqual('Karl Zsófia')
+        expect(response.body.patientData.Name).toEqual('Fekete József')
+        expect(response.body.patientData.PlaceBirth).toEqual('Budapest')
 
-        });
+        //TODO: add hozzá a fennmaradó részét
 
-    });
-/*
-    it('should return the greeting message with error', () => {
-        const result = testing.greet('Akarmilyen string')
-        expect(result).toMatch(/Akarmilyen string/);
-        });
-*/
-});
+        /*expect(200,   {
+
+                TAJ: 123456789,
+                Name: 'NAME',
+                SzuleteskoriName: 'SZULNAME',
+                MotherName: 'MNAME',
+                PlaceBirth: 'PB',
+                DateBirth: '1911-11-11'
+          }, done)*/
+         done()
+      })
+    })
+
+    describe('/POST create patient', () => {
+                 //console.log(response.body);
+             //https://www.npmjs.com/package/supertest
+             //https://zellwk.com/blog/endpoint-testing/
+             //https://jestjs.io/docs/en/tutorial-async
+   
+          it('returns correct data', async done => {
+             const response = await request.post('/api')
+             .send({ TAJ: 784784784, Name: 'NAME', SzuleteskoriName: 'SZULNAME', MotherName: 'MNAME', PlaceBirth: 'PB', DateBirth: '1911-11-11'})
+             expect(response.status).toBe(201)
+             // TODO: expect(response.body.success).toEqual(true)
+             // TODO: expect(response).toBeDefined()
+             // TODO: expect(response.body.patientData.TAJ).toEqual(123456789)
+             // TODO: expect(response.body.patientData.Name).toEqual('NAME')
+             expect(1).toBe(1)
+             done()
+              })
+      })    
+
