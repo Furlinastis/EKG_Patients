@@ -58,13 +58,17 @@ async function updatePatient(id,req) {
         return updatePatient.rowsAffected[0];
 };
 
+    function greet (name){
+    return 'Welcome ' + name;
+    }
 
 module.exports = {
 
     getPatientList,
     getPatientByID,
     createPatient,
-    updatePatient
+    updatePatient,
+    greet
     
 };
 
